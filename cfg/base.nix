@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }:
 
 let
-  stateVersion = "17.09";
+  stateVersion = "18.03";
   hostName = "nixos";
 
   country = "fr";
