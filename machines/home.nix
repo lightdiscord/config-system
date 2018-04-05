@@ -5,7 +5,7 @@
     ../hardware-configuration.nix
 
     ../cfg/base.nix
-    ../cfg/i3wm.nix
+    ../cfg/lightdm.nix
     ../cfg/yubikey.nix
   ];
 
@@ -14,6 +14,11 @@
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
   services.printing.enable = true;
+
+  hardware.pulseaudio = {
+    enable = true;
+    support32Bit = true;
+  };
 
   environment.systemPackages = with pkgs; [
     neovim

@@ -1,8 +1,6 @@
 { config, libs, pkgs, ... }:
 
-let
-  package = pkgs.i3-gaps;
-in {
+{
 
   imports = [
     ./video.nix
@@ -12,9 +10,5 @@ in {
     enable = true;
     layout = "fr";
     displayManager.lightdm.enable = true;
-    windowManager.i3 = {
-      enable = true;
-      inherit package;
-    };
   };
 }
