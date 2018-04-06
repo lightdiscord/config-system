@@ -14,5 +14,9 @@ in {
         inherit videoDrivers xrandrHeads;
     };
 
+    fonts.fonts = with pkgs; [
+        emojione
+    ];
+
     environment.variables.DISPLAY = ":0";
 }

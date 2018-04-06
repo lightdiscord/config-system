@@ -1,14 +1,26 @@
 { config, libs, pkgs, ... }:
 
-{
+let 
+  enable = true;
+
+  background = pkgs.fetchurl {
+      name = "wallpaper.png";
+      url = "https://images2.alphacoders.com/697/697173.jpg";
+      sha256 = "0vy3rzwm395n2jk939lmcwlpm5zri8dyrs455m9rr77h40gq80wc";
+  };
+in {
 
   imports = [
     ./video.nix
   ];
 
   services.xserver = {
-    enable = true;
     layout = "fr";
-    displayManager.lightdm.enable = true;
+    displayManager.lightdm = {
+      background = toString background;
+      inherit enable;
+    };
+
+    inherit enable;
   };
 }
