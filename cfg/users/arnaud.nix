@@ -16,13 +16,6 @@ let
 
   shell = pkgs.fish;
 
-  packages = with pkgs; [
-      neovim
-      htop
-      tmux
-      git
-  ];
-
   keys = with import ../../misc/keys.nix; [
       ssh.arnaud
   ];
@@ -33,7 +26,7 @@ in {
 
     openssh.authorizedKeys.keys = keys;
 
-    inherit description hashedPassword shell packages uid extraGroups;
+    inherit description hashedPassword shell uid extraGroups;
   };
 
   programs.fish = {

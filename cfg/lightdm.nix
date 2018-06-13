@@ -14,6 +14,8 @@ in {
     ./video.nix
   ];
 
+  security.pam.services.lightdm.enableGnomeKeyring = true;
+
   services.xserver = {
     layout = "fr";
     displayManager.lightdm = {
