@@ -5,7 +5,7 @@ let
   hostName = "nixos";
 
   country = "fr";
-  credentials = "/etc/keys/protonvpn.txt";
+  credentials = /etc/keys/protonvpn.txt;
 in {
 
   imports = [
@@ -21,6 +21,7 @@ in {
   nixpkgs.config.allowUnfree = true;
 
   i18n = {
+    #consoleFont = "sun12x14";
     consoleKeyMap = "fr";
     defaultLocale = "en_US.UTF-8";
   };

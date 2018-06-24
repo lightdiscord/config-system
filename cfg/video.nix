@@ -32,6 +32,7 @@ in {
 
     fonts.fonts = with pkgs; [
         emojione
+        powerline-fonts
     ];
 
     environment.variables.DISPLAY = ":0.0";

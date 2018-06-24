@@ -12,6 +12,7 @@ let
       "networkmanager"
       "audio"
       "git"
+      "vboxusers"
   ];
 
   shell = pkgs.fish;

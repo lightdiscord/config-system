@@ -11,7 +11,14 @@
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.cleanTmpDir = true;
+  boot.earlyVconsoleSetup = true;
   boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.extraModulePackages = [
+    pkgs.linuxPackages_latest.nvidia_x11
+  ];
+  #boot.grubSplashImage = 
+
 
   services.printing.enable = true;
 
@@ -19,6 +26,8 @@
     enable = true;
     support32Bit = true;
   };
+
+  virtualisation.virtualbox.host.enable = true;
 
   environment.systemPackages = with pkgs; [
     neovim
