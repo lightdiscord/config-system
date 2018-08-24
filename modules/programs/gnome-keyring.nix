@@ -12,7 +12,7 @@ in {
 	};
 
 	config = mkIf cfg.enable {
-  	services.gnome3.gnome-keyring.enable = true;
+		services.gnome3.gnome-keyring.enable = true;
 
 		security.pam.services.lightdm.enableGnomeKeyring = lightdm.enable;
 	};
