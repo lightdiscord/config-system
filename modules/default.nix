@@ -1,6 +1,6 @@
 [
 	# External
-  (builtins.fetchTarball https://github.com/LightDiscord/ProtonVPN-Nix/archive/master.tar.gz)
+	(builtins.fetchTarball https://github.com/LightDiscord/ProtonVPN-Nix/archive/master.tar.gz)
 
 	# Config
 	./config/networking.nix
@@ -17,10 +17,10 @@
 	# Security
 	./security/yubikey.nix
 
-  # Services
+	# Services
 
-  ## Misc
-  ./services/misc/gitea.nix
+	## Misc
+	./services/misc/gitea.nix
 
 	## Web Servers
 	./services/web-servers/caddy.nix

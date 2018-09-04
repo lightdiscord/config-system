@@ -19,7 +19,7 @@
 		client.enable = true;
 	};
 
-  services.openssh.enable = true;
+	services.openssh.enable = true;
 
 	i18n = {
 		consoleKeyMap = "fr";
@@ -72,7 +72,7 @@
 
 	lambda.config.networking.enable = true;
 
-  lambda.services.gitea.enable = true;
+	lambda.services.gitea.enable = true;
 	lambda.services.caddy.enable = true;
 
 	system.stateVersion = "18.09";

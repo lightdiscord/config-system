@@ -3,11 +3,11 @@
 with lib;
 
 let
-  name = "gitea";
+	name = "gitea";
 	address = "127.0.5.1";
 
-  cfg = config.lambda.services.gitea;
-  caddy = config.lambda.services.caddy;
+	cfg = config.lambda.services.gitea;
+	caddy = config.lambda.services.caddy;
 	gitea = config.services.gitea;
 in {
 	options.lambda.services.gitea = {
@@ -18,11 +18,11 @@ in {
 		services.gitea = {
 			enable = true;
 			appName = "Lambda";
-      httpAddress = address;
-      rootUrl = mkIf caddy.enable "https://${name}/";
-      # extraConfig = mkIf caddy.enable ''
+			httpAddress = address;
+			rootUrl = mkIf caddy.enable "https://${name}/";
+			# extraConfig = mkIf caddy.enable ''
 
-      # '';
+			# '';
 		};
 
 		networking.hosts.${address} = [

@@ -6,12 +6,12 @@ let
 	hashedPassword = "$6$LRS6oz74Lt0$wxRJrD9dVK61ofjP9Cwc1ymNz6l8oknWUHx71pYqtkEY1KfeDdSU3bnslGO8A7TeM1AXYh8.p57IQ8wbVQvBO0";
 
 	extraGroups = [
-			"wheel"
-			"networkmanager"
-			"audio"
-			"git"
-			"docker"
-			"vboxusers"
+		"wheel"
+		"networkmanager"
+		"audio"
+		"git"
+		"docker"
+		"vboxusers"
 	];
 in {
 	users.extraUsers.arnaud = {
