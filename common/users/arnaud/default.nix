@@ -20,7 +20,7 @@ in {
 		createHome = true;
 		description = data.nickname;
 
-		openssh.authorizedkeys.keys = [ data.keys.ssh ];
+		openssh.authorizedKeys.keys = [ data.keys.ssh ];
 
 		shell = pkgs.fish;
 

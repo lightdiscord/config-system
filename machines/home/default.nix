@@ -14,14 +14,12 @@
 	virtualisation.docker.enable = true;
 	virtualisation.virtualbox.host.enable = true;
 
-	services.kubernetes = {
-		roles = ["master" "node"];
-	};
-
 	services.tor = {
 		enable = true;
 		client.enable = true;
 	};
+
+  services.openssh.enable = true;
 
 	i18n = {
 		consoleKeyMap = "fr";
@@ -73,6 +71,9 @@
 	];
 
 	lambda.config.networking.enable = true;
+
+  lambda.services.gitea.enable = true;
+	lambda.services.caddy.enable = true;
 
 	system.stateVersion = "18.09";
 }

@@ -16,4 +16,12 @@
 
 	# Security
 	./security/yubikey.nix
+
+  # Services
+
+  ## Misc
+  ./services/misc/gitea.nix
+
+	## Web Servers
+	./services/web-servers/caddy.nix
 ]
