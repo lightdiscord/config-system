@@ -12,6 +12,8 @@ let
 		"git"
 		"docker"
 		"vboxusers"
+		"scanner"
+		"lp"
 	];
 in {
 	users.extraUsers.arnaud = {

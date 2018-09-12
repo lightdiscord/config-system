@@ -20,9 +20,10 @@ in {
 			appName = "Lambda";
 			httpAddress = address;
 			rootUrl = mkIf caddy.enable "https://${name}/";
-			# extraConfig = mkIf caddy.enable ''
-
-			# '';
+			extraConfig = ''
+				[ui]
+				DEFAULT_THEME=arc-green
+			'';
 		};
 
 		networking.hosts.${address} = [
