@@ -6,20 +6,20 @@ let
 	name = "gitea";
 	address = "127.0.5.1";
 
-	cfg = config.lambda.services.gitea;
-	caddy = config.lambda.services.caddy;
+	cfg = config.alphabet.services.gitea;
+	caddy = config.alphabet.services.caddy;
 	gitea = config.services.gitea;
 in {
-	options.lambda.services.gitea = {
+	options.alphabet.services.gitea = {
 		enable = mkEnableOption "Gitea service";
 	};
 
 	config = mkIf cfg.enable {
 		services.gitea = {
 			enable = true;
-			appName = "Lambda";
+			appName = "Gitea";
 			httpAddress = address;
-			rootUrl = mkIf caddy.enable "https://${name}/";
+			rootUrl = mkIf caddy.enable "http://${name}/";
 			extraConfig = ''
 				[ui]
 				DEFAULT_THEME=arc-green
@@ -30,7 +30,7 @@ in {
 			name
 		];
 
-		lambda.services.caddy.sections = [
+		alphabet.services.caddy.sections = [
 			''
 				http://${name} {
 					proxy / ${address}:${toString gitea.httpPort}

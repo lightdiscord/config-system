@@ -3,9 +3,9 @@
 with lib;
 
 let
-	cfg = config.lambda.services.caddy;
+	cfg = config.alphabet.services.caddy;
 in {
-	options.lambda.services.caddy = {
+	options.alphabet.services.caddy = {
 		enable = mkEnableOption "Caddy web server";
 
 		sections = mkOption {

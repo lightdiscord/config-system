@@ -3,9 +3,9 @@
 with lib;
 
 let
-	cfg = config.lambda.hardware.video.nvidia;
+	cfg = config.alphabet.hardware.video.nvidia;
 in {
-	options.lambda.hardware.video.nvidia = {
+	options.alphabet.hardware.video.nvidia = {
 		enable = mkEnableOption "Nvidia video driver";
 	};
 

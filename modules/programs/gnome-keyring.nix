@@ -3,11 +3,11 @@
 with lib;
 
 let
-	cfg = config.lambda.programs.gnome-keyring;
+	cfg = config.alphabet.programs.gnome-keyring;
 
-	lightdm = config.lambda.hardware.video.lightdm;
+	lightdm = config.alphabet.hardware.video.lightdm;
 in {
-	options.lambda.programs.gnome-keyring = {
+	options.alphabet.programs.gnome-keyring = {
 		enable = mkEnableOption "Gnome Keyring";
 	};
 

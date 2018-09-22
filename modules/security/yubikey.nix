@@ -3,9 +3,9 @@
 with lib;
 
 let
-	cfg = config.lambda.security.yubikey;
+	cfg = config.alphabet.security.yubikey;
 in {
-	options.lambda.security.yubikey = {
+	options.alphabet.security.yubikey = {
 		enable = mkEnableOption "Yubikey";
 	};
 

@@ -3,9 +3,9 @@
 with lib;
 
 let
-	cfg = config.lambda.hardware.video.lightdm;
+	cfg = config.alphabet.hardware.video.lightdm;
 in {
-	options.lambda.hardware.video.lightdm = {
+	options.alphabet.hardware.video.lightdm = {
 		enable = mkEnableOption "LightDM";
 
 		background = mkOption {

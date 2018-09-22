@@ -3,7 +3,7 @@
 	(builtins.fetchTarball https://github.com/LightDiscord/ProtonVPN-Nix/archive/master.tar.gz)
 
 	# Config
-	./config/networking.nix
+	./config/device.nix
 
 	# Hardware
 
