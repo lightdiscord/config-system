@@ -3,6 +3,7 @@
 {
 	imports = (import ../../modules) ++ (import ./configurations) ++ [
 		../../common/users/arnaud
+		../../common/users/arnaud/home-manager.nix
 	];
 
 	alphabet.letter = "Lambda";
@@ -52,4 +53,9 @@
 
 	virtualisation.docker.enable = true;
 	virtualisation.virtualbox.host.enable = true;
+
+	system.autoUpgrade = {
+		enable = true;
+		dates = "02:00";
+	};
 }
