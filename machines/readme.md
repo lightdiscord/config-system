@@ -1,7 +1,8 @@
 # Machines
 
-Here are listed all my installations (letters).
+Here are listed all my machines (with anime characters).
 
 ---
 
-* `λ` - The λ device is my main computer.
+* `Riza Hawkeye` - The definition of the hardware of my main computer.
+* `Sakamoto` - Definition to build an burnable iso.

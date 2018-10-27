@@ -1,0 +1,6 @@
+[submodule "packages/neovim"]
+	path = packages/neovim
+	url = git@github.com:LightDiscord/Vim-files.git
+[submodule "users/arnaud/home-manager/modules/awesome"]
+	path = users/arnaud/home-manager/modules/awesome
+	url = git@github.com:LightDiscord/awesome.git

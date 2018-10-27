@@ -1,14 +1,3 @@
-# Configuration.nix
-
-My NixOS system-wide configuration
-
----
-
-## Installation
-
-Modify the system & the machine in `configuration.nix`.
-
-```nix
 { ... }:
 
 let
@@ -25,4 +14,3 @@ in {
 		systems.lambda
 	];
 }
-```
