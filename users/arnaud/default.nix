@@ -29,5 +29,5 @@ in {
 		inherit hashedPassword extraGroups;
 	};
 
-	programs.fish.enable = true;
+	programs.fish.enable = config.users.extraUsers.arnaud.shell == pkgs.fish;
 }

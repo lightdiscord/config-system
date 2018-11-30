@@ -1,20 +1,16 @@
-{ sysconfig }: { config, lib, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 
 with lib;
 
-let
-	xserver = sysconfig.services.xserver.enable;
-in {
-
-	imports = ([
-		(import ./packages.nix { inherit sysconfig; })
-	] ++ optionals xserver [
+{
+	imports = [
+		(import ./packages.nix)
 		(import ./modules/awesome).home-manager
-	]);
+	];
+
+	xsession.windowManager.awesome.enable = config.xsession.enable;
 
 	nixpkgs.config.allowUnfree = true;
-
-	home.keyboard.layout = sysconfig.i18n.consoleKeyMap;
 
 	manual.manpages.enable = true;
 
@@ -32,9 +28,7 @@ in {
 		longitude = "6.875682";
 	};
 
-	programs.git = let
-		user = import ../../../users/arnaud/data.nix;
-	in {
+	programs.git = let user = import ../../../users/arnaud/data.nix; in {
 		enable = true;
 
 		signing = {
@@ -56,6 +50,4 @@ in {
 		enableSshSupport = true;
 		defaultCacheTtl = 60;
 	};
-
-	xsession.enable = xserver;
 }

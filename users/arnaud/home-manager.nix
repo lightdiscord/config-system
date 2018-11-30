@@ -1,17 +1,21 @@
-{ config, ... }:
+{ config, lib, pkgs, ... }:
+
+with lib;
 
 let
-
-	home-manager = https://github.com/rycee/home-manager/archive/master.tar.gz;
-
-in {
-
-	imports = [
-		"${(fetchTarball home-manager)}/nixos"
-	];
-
-	home-manager.users.arnaud = import ./home-manager {
-		sysconfig = config;
+	home-manager = fetchGit {
+		url = "git@github.com:rycee/home-manager.git";
+		rev = "40b279e3a33fd47b7e65e0303fcb9be621aeb7d3";
 	};
+in {
+	imports = [(import home-manager {}).nixos];
 
+	home-manager.users.arnaud = mkMerge [
+		({
+			xsession.enable = config.services.xserver.enable;
+			home.keyboard.layout = config.i18n.consoleKeyMap;
+		})
+
+		(import ./home-manager)
+  ];
 }

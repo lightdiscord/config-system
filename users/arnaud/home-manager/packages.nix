@@ -1,11 +1,11 @@
-{ sysconfig }: { lib, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 
 with lib;
 
 let
 	neovim = ../../../packages/neovim;
-
-	packages = with pkgs; ([
+in {
+	home.packages = with pkgs; ([
 		psmisc
 		tmate
 		gcc
@@ -20,7 +20,9 @@ let
 		protonmail-bridge
 		ponysay
 		(callPackage neovim {})
-	] ++ optionals sysconfig.services.xserver.enable [
+		upower
+		acpi
+	] ++ optionals config.xsession.enable [
 		discord
 		pavucontrol
 		google-chrome
@@ -33,8 +35,5 @@ let
 		kitty
 		libreoffice
 	]);
-
-in {
-	home.packages = packages;
 }
 

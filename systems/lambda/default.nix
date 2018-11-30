@@ -12,6 +12,9 @@ with lib;
 		../../users/arnaud/home-manager.nix
 	];
 
+	sound.enable = true;
+	sound.mediaKeys.enable = true;
+
 	users.mutableUsers = false;
 
 	system.stateVersion = mkForce "19.03";

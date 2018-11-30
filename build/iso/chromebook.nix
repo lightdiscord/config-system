@@ -7,7 +7,9 @@
 		systems = import ../../systems;
 
 	in [
+		machines.narberal-gamma
 		machines.sakamoto
+
 		systems.lambda
 	];
 }).config.system.build.isoImage

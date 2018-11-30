@@ -10,7 +10,7 @@ let
 
 in {
 	imports = [
-		<nixpkgs/nixos/modules/installer/cd-dvd/channel.nix>
+		# <nixpkgs/nixos/modules/installer/cd-dvd/channel.nix>
 		<nixpkgs/nixos/modules/installer/cd-dvd/iso-image.nix>
 		<nixpkgs/nixos/modules/installer/scan/detected.nix>
 		<nixpkgs/nixos/modules/installer/scan/not-detected.nix>
@@ -28,6 +28,7 @@ in {
 	boot.supportedFilesystems = [ "btrfs" "reiserfs" "vfat" "f2fs" "xfs" "ntfs" "cifs" ];
 
 	services.xserver = mkIf config.services.xserver.enable {
+		libinput.enable = true;
 		inherit layout;
 	};
 
