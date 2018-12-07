@@ -2,10 +2,17 @@
 
 with lib;
 
-{
+let
+
+	awesome = if (builtins.tryEval <awesome>).success then <awesome> else fetchGit {
+		url = "git@github.com:LightDiscord/Awesome";
+		rev = "e175d73cb1f0584977bc3d2c5aebf690196c6814";
+	};
+
+in {
 	imports = [
 		(import ./packages.nix)
-		(import ./modules/awesome).home-manager
+		(import awesome).home-manager
 	];
 
 	xsession.windowManager.awesome.enable = config.xsession.enable;

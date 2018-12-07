@@ -3,7 +3,7 @@
 with lib;
 
 let
-	neovim = ../../../packages/neovim;
+	neovim = ../../../packages/neovim.nix;
 in {
 	home.packages = with pkgs; ([
 		psmisc
@@ -36,4 +36,3 @@ in {
 		libreoffice
 	]);
 }
-

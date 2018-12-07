@@ -2,9 +2,14 @@
 
 with lib;
 
-{
+let
+	protonvpn = if (builtins.tryEval <protonvpn>).success then <protonvpn> else fetchGit {
+		url = "git@github.com:LightDiscord/ProtonVPN-Nix";
+		rev = "a9ebf5fd59657d954da9e6a596913ab0d0beb2a0";
+	};
+in {
 	imports = [
-		(builtins.fetchTarball https://github.com/LightDiscord/ProtonVPN-Nix/archive/master.tar.gz)
+		(import protonvpn)
 
 		<nixpkgs/nixos/modules/services/hardware/sane_extra_backends/brscan4.nix>
 
@@ -13,7 +18,7 @@ with lib;
 	];
 
 	sound.enable = true;
-	sound.mediaKeys.enable = true;
+	sound.mediaKeys.enable = config.sound.enable;
 
 	users.mutableUsers = false;
 
@@ -75,42 +80,38 @@ with lib;
 
 	services.gnome3.gnome-keyring.enable = true;
 
-	security.pam.services.lightdm.enableGnomeKeyring = config.services.xserver.displayManager.lightdm.enable;
+	security.pam.services.lightdm.enableGnomeKeyring =
+		config.services.xserver.displayManager.lightdm.enable;
 
 	# xserver configuration.
-	services.xserver.enable = true;
-
-	services.xserver.displayManager.lightdm = {
+	services.xserver = {
 		enable = true;
-		background = toString (pkgs.fetchurl {
-			url = https://wallpapers.wallhaven.cc/wallpapers/full/wallhaven-656580.png;
-			sha256 = "0pqxwsgyjvs7pnqnqlm3d7vw21xikw4j046l82gj6mlpg3w4fdrn";
-		});
+
+		displayManager.lightdm = {
+			inherit (config.services.xserver) enable;
+
+			background = toString (pkgs.fetchurl {
+				url = https://wallpapers.wallhaven.cc/wallpapers/full/wallhaven-656580.png;
+				sha256 = "0pqxwsgyjvs7pnqnqlm3d7vw21xikw4j046l82gj6mlpg3w4fdrn";
+			});
+		};
 	};
 
-	hardware.sane.enable = true;
-	hardware.sane.brscan4.enable = true;
+	hardware.sane = {
+		enable = true;
+
+		brscan4.enable = config.hardware.sane.enable;
+	};
 
 	boot = {
 		loader.systemd-boot.enable = true;
 		loader.efi.canTouchEfiVariables = true;
-
 		cleanTmpDir = true;
-
 		kernelPackages = pkgs.linuxPackages_latest;
-
 		initrd.availableKernelModules = [
-			"xhci_pci"
-			"ehci_pci"
-			"ahci"
-			"usbhid"
-			"usb_storage"
-			"sd_mod"
-			"sr_mod"
+			"xhci_pci" "ehci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" "sr_mod"
 		];
-
 		kernelModules = ["kvm-intel"];
-
 		extraModulePackages = [];
 	};
 
