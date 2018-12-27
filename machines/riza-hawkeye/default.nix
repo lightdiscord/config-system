@@ -4,7 +4,7 @@ with lib;
 
 let
 
-	# Animes can also be watch in VF.
+	# ANIME MUST ONLY BE WATCHED WITH THE ORIGINAL VOICE.
 	layout = "fr";
 
 	root = "/dev/disk/by-uuid/e1a4de53-cdfb-45fa-a266-f9325d6ae48a";
