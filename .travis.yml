@@ -17,15 +17,3 @@ install:
 
 script:
   - echo ":wave:"
-
-# deploy:
-#   provider: releases
-#   api-key:
-#     secure: RxJrSqU0SGigflZRK2qXsrti8jLx1Lv0uUvYYT26m7NopYpfJuCYnxODxLWAlyXfDSK/3nsAs6jW9mh2srP5B7dk5gn0vGjcseDvygrUTF6ZnUO4I4zkO2xVtAqfexdPJ603hslpEuCgX6oHCyMiiDAKRnmLiPWTmyFJVMCUYmRPlmaqlLjxPh3+Y+t8aJcZvdmsCxEBmEVnTOYxow+6gUhN4BLMtkjRDY4ZAefsEcxq5iaK4olCHKTmw97sqhgwFIEExgb8MHmd5QeJzqbFweXptKy6MTCtcMwQQbHMbJKLmIjJVsJaxME2vM1SV/MyuR4NuaJWH0QV0TkziQygihAIuF9kPKf+aJvLEUvzhtlPCfjaYoIusRBYz1lrUUTG5Ye5puyl51vMZiBFZLP3kx6MFlUOwczoCg/KpdzIJcauCTGIPiZeYEFBEIh9f90z13+j6ayFDH7DWDzihiVmXukcrdViWbgCSWzK0L0iJDucazHJKEvlOhEpz4Xx3J/thpUauKOWg1k8dXytmI9eGiVm4kcC4ror6nnQFNpq7onnQEAt4Z9mWy9G70xSVOl+hq9RditAKDdOn5O2gYjI11V1bYmEzUM6TGjufXQTIlx3rMPbd8XT/Mh1C77IlYQVA1vQRX8f7rSiDbzrPFDqql/Uj0fEm6DjpdE479xa114=
-#   file_glob: true
-#   file: ./result/iso/*.iso
-#   skip_cleanup: true
-#   overwrite: true
-#   draft: true
-#   on:
-#     all_branches: true

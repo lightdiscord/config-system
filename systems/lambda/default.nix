@@ -13,9 +13,13 @@ in {
 
 		<nixpkgs/nixos/modules/services/hardware/sane_extra_backends/brscan4.nix>
 
-		../../users/arnaud
-		../../users/arnaud/home-manager.nix
+		/home/arnaud/nix-user-arnaud/home-manager/install.nix
+		# ../../users/arnaud/home-manager.nix
 	];
+
+	users.users.arnaud = import /home/arnaud/Workspaces/nix-things/user-arnaud {
+		inherit config;
+	};
 
 	sound.enable = true;
 	sound.mediaKeys.enable = config.sound.enable;
@@ -107,7 +111,7 @@ in {
 		loader.systemd-boot.enable = true;
 		loader.efi.canTouchEfiVariables = true;
 		cleanTmpDir = true;
-		kernelPackages = pkgs.linuxPackages_latest;
+		kernelPackages = pkgs.linuxPackages_4_19;
 		initrd.availableKernelModules = [
 			"xhci_pci" "ehci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" "sr_mod"
 		];
@@ -115,12 +119,19 @@ in {
 		extraModulePackages = [];
 	};
 
+	services.printing = {
+		enable = true;
+	};
+
 	hardware.pulseaudio = {
 		enable = true;
 		support32Bit = true;
 		tcp = {
 			enable = true;
-			anonymousClients.allowedIpRanges = ["127.0.0.1"];
+			anonymousClients.allowedIpRanges = [
+				"127.0.0.1"
+				"192.168.1.18"
+			];
 		};
 	};
 }

@@ -15,6 +15,18 @@ in {
 
 	boot.kernelParams = [ "acpi_backlight=vendor" ];
 
+	boot.initrd.kernelModules = [
+		"snd-seq"
+		"snd-rawmidi"
+		"i915"
+	];
+
+	boot.extraModprobeConfig = ''
+		options snd slots=snd_soc_sst_bdw_rt5677_mach,snd-hda-intel
+	'';
+
+	hardware.enableAllFirmware = true;
+
 	system.replaceRuntimeDependencies = [{
 		original = pkgs.alsaLib;
 
@@ -22,4 +34,17 @@ in {
 			postFixup = "cp -r ${ucm}/chtmax98090 $out/share/alsa/ucm";
 		});
 	}];
+
+	powerManagement = {
+		enable = true;
+		cpuFreqGovernor = "ondemand";
+	};
+
+	services.logind.extraConfig = ''
+		HandlePowerKey=ignore
+	'';
+
+	hardware.pulseaudio.package = pkgs.pulseaudio.override {
+		jackaudioSupport = true;
+	};
 }
