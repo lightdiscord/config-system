@@ -123,6 +123,8 @@ in {
 	# 	style = "adwaita";
 	# };
 
+	# https://github.com/NixOS/nixpkgs/pull/25311#issuecomment-431107258
+	systemd.services.systemd-udev-settle.serviceConfig.ExecStart = ["" "${pkgs.coreutils}/bin/true"];
 
 	# This value determines the NixOS release with which your system is to be
 	# compatible, in order to avoid breaking some software such as database
