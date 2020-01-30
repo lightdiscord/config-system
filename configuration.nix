@@ -52,6 +52,7 @@ in {
 		enable = true;
 		layout = "fr";
 		videoDrivers = [ "nvidia" ];
+		libinput.enable = true;
 
 		displayManager = {
 			lightdm.enable = true;
@@ -59,8 +60,16 @@ in {
 				${pkgs.xorg.xrandr}/bin/xrandr --output HDMI-0 --left-of eDP-1-1 --output eDP-1-1 --primary
 			'';
 		};
-		windowManager.i3.enable = true;
-		libinput.enable = true;
+
+		windowManager.i3 = {
+			enable = true;
+			extraPackages = with pkgs; [
+				feh
+				rofi
+				i3status
+				i3lock
+			];
+		};
 	};
 
 	services.compton.enable = true;
@@ -116,6 +125,17 @@ in {
 	hardware.firmware = [
 		(pkgs.callPackage ./firmwares/rtl8125a-3-fw.nix { })
 	];
+
+	systemd.user.services.randomize-background = let
+		wallpaper-folder = "/home/arnaud/Pictures/Wallpapers";
+	in {
+		description = "Run feh to randomize wallpapers";
+		requires = [ "graphical-session.target" ];
+		serviceConfig = {
+			Type = "oneshot";
+			ExecStart = "${pkgs.feh}/bin/feh --no-fehbg --bg-scale --randomize ${wallpaper-folder}";
+		};
+	};
 
 	# qt5 = {
 	# 	enable = true;
