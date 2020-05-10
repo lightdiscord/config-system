@@ -9,7 +9,7 @@
 	boot.initrd.kernelModules = [ ];
 	boot.kernelModules = [ "kvm-intel" ];
 	boot.extraModulePackages = [ ];
-	boot.blacklistedKernelModules = [ "dell_smbios" ];
+	boot.blacklistedKernelModules = [ "dell_smbios" "i2c_nvidia_gpu" ];
 
 	fileSystems."/" = {
 		device = "/dev/disk/by-uuid/8074308b-f567-4a76-ae17-0faee1fbf5b7";

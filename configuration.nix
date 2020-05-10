@@ -1,48 +1,57 @@
-{ config, pkgs, ... }:
+{ lib, config, pkgs, ... }:
 
-let
-	# nixpkgs-mozilla = import (pkgs.fetchFromGitHub {
-	# 	owner = "mozilla";
-	# 	repo = "nixpkgs-mozilla";
-	# 	rev = "9d08acc6e95a784cf7b9ba73ebcabe86dd24abc0";
-	# 	sha256 = "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b";
-	# });
-	nixpkgs-mozilla = import (builtins.fetchTarball {
-		url = https://github.com/mozilla/nixpkgs-mozilla/archive/9d08acc6e95a784cf7b9ba73ebcabe86dd24abc0.tar.gz;
-		sha256 = "1vr0crlfba2y2phar7rn4xyyh7m4v3i5lvvy9z1hgwdjx5ch2dfi";
-	});
-in {
+{
 	require = [
 		./hardware-configuration.nix
-		/mnt/datas/gits/lightdiscord/home-arnaud
+		./home-arnaud/nixos.nix
 	];
 
-	boot.loader.systemd-boot.enable = true;
-	boot.loader.efi.canTouchEfiVariables = true;
-
-	boot.kernelPackages = pkgs.linuxPackages_latest;
-	boot.extraModulePackages = with config.boot.kernelPackages; [ exfat-nofuse ];
-
-	boot.cleanTmpDir = true;
-
-	networking.hostName = "ritsu";
-
-	networking.useDHCP = false;
-	networking.interfaces.enp69s0.useDHCP = true;
-	# networking.interfaces.enp0s20f0u2u5u4.useDHCP = true;
-
-	i18n = {
-		consoleKeyMap = "fr";
-		defaultLocale = "en_US.UTF-8";
+	boot = {
+		loader.systemd-boot.enable = true;
+		loader.efi.canTouchEfiVariables = true;
+		kernelPackages = pkgs.linuxPackages_latest;
+		cleanTmpDir = true;
 	};
+
+	networking = {
+		hostName = "ritsu";
+		useNetworkd = true;
+		useDHCP = false;
+		wireless = {
+			enable = true;
+			userControlled.enable = true;
+		};
+	};
+
+	systemd.network = {
+		enable = true;
+		# TODO: Systemd v245, we can use the Type match with ether or wlan.
+		# https://github.com/systemd/systemd/pull/14957
+		networks."40-ether" = {
+			matchConfig.Name = "en*";
+			DHCP = "yes";
+		};
+
+		networks."40-wlan" = {
+			matchConfig.Name = "wl*";
+			DHCP = "yes";
+			linkConfig.RequiredForOnline = "no";
+		};
+	};
+
+	services.upower.enable = true;
+
+	console.keyMap = "fr";
+	i18n.defaultLocale = "en_US.UTF-8";
 
 	time.timeZone = "Europe/Paris";
 
 	environment.systemPackages = with pkgs; [
-		vim
+		vim git
 	];
 
 	sound.enable = true;
+
 	hardware.pulseaudio = {
 		enable = true;
 		support32Bit = true;
@@ -52,90 +61,131 @@ in {
 		enable = true;
 		layout = "fr";
 		videoDrivers = [ "nvidia" ];
-		libinput.enable = true;
-
-		displayManager = {
-			lightdm.enable = true;
-			sessionCommands = ''
-				${pkgs.xorg.xrandr}/bin/xrandr --output HDMI-0 --left-of eDP-1-1 --output eDP-1-1 --primary
-			'';
-		};
-
-		windowManager.i3 = {
+		libinput = {
+			additionalOptions = ''MatchIsTouchpad "on"'';
 			enable = true;
-			extraPackages = with pkgs; [
-				feh
-				rofi
-				i3status
-				i3lock
-			];
 		};
-	};
+		xkbVariant = "azerty";
 
-	services.compton.enable = true;
+		displayManager.lightdm = {
+			enable = true;
 
+			background = toString (pkgs.fetchurl {
+				url = "https://cdna.artstation.com/p/assets/images/images/026/253/202/large/niyas-ck-red-test.jpg?1588281837";
+				sha256 = "1gr9hxadis1368fbnxmwh6y4an7cmx1g0ryc14g5i2zxdd3ihmr1";
+			});
 
-	hardware.nvidia.optimus_prime = {
+			greeters.gtk.indicators = [ "~host" "~spacer" "~clock" "~spacer" "~session" "~language" "~ally" "~power" ];
+
+			greeters.gtk.theme = {
+				package = pkgs.arc-theme;
+				name = "Arc-Dark";
+			};
+		};
+
+		exportConfiguration = true;
+
+		desktopManager.xterm.enable = true;
+
+		xrandrHeads = [
+			"HDMI-0"
+			{ output = "eDP-1-1"; primary = true; }
+			];
+
+		# windowManager.i3 = {
+		# 	enable = true;
+		# 	extraPackages = with pkgs; [
+		# 		feh
+		# 		rofi
+		# 		i3status
+		# 		i3lock
+		# 	];
+		# };
+		};
+
+		programs.light.enable = true;
+
+		hardware.nvidia.optimus_prime = {
 		enable = true;
 		nvidiaBusId = "PCI:1:0:0";
 		intelBusId = "PCI:0:2:0";
-	};
+		};
 
-	hardware.nvidia.modesetting.enable = true;
+		hardware.nvidia.modesetting.enable = true;
 
-	hardware.opengl = {
+		hardware.opengl = {
 		enable = true;
 		driSupport32Bit = true;
-	};
+		};
 
-	networking.networkmanager.enable = true;
+		users.groups."plugdev" = {};
 
-	users.groups."plugdev" = {};
-
-	users.users.arnaud = {
+		users.users.arnaud = {
 		isNormalUser = true;
-		extraGroups = [ "wheel" "networkmanager" "plugdev"];
-		packages = [ pkgs.steam pkgs.google-chrome ((pkgs.rustChannelOf { date = "2020-01-22"; channel = "nightly";
-	}).rust.override {
-		extensions = ["rls-preview" "rust-analysis" "rust-src"];
-	})
-		(pkgs.callPackage /mnt/datas/gits/lightdiscord/emacs {})
-		pkgs.qgnomeplatform ];
-	};
+		extraGroups = [ "wheel" "networkmanager" "plugdev" "network" "video" "vboxusers" "docker" "libvirtd" ];
+		shell = pkgs.fish;
+		packages = [ pkgs.qgnomeplatform ];
+		};
 
-	services.pcscd.enable = true;
+		boot.kernelModules = ["kvm-intel"];
 
-	services.udev.packages = with pkgs; [ yubikey-personalization libu2f-host ];
+		virtualisation.docker = {
+		enable = true;
+		enableOnBoot = false;
+		};
 
-	programs.gnupg.agent = {
+		virtualisation.virtualbox.host.enable = true;
+
+		services.pcscd.enable = true;
+
+		services.udev.packages = with pkgs; [ yubikey-personalization libu2f-host ];
+
+		programs.gnupg.agent = {
 		enable = true;
 		enableSSHSupport = true;
-	};
+		};
 
-	nixpkgs.config.allowUnfree = true;
-	nixpkgs.overlays = [ nixpkgs-mozilla ];
+		nixpkgs.config.allowUnfree = true;
 
-	services.redshift.enable = true;
+		services.redshift.enable = true;
 
-	location = {
+		location = {
 		latitude = 48.85341;
 		longitude = 2.3488;
-	};
+		};
 
-	hardware.firmware = [
+		hardware.firmware = [
 		(pkgs.callPackage ./firmwares/rtl8125a-3-fw.nix { })
+		];
+
+	# virtualisation.virtualbox.host.enable = true;
+	# users.groups.vboxusers.members = [ "arnaud" ];
+
+	# systemd.user.services.randomize-background = let
+	# 	wallpaper-folder = "/home/arnaud/Pictures/Wallpapers";
+	# in {
+	# 	description = "Run feh to randomize wallpapers";
+	# 	requires = [ "graphical-session.target" ];
+	# 	serviceConfig = {
+	# 		Type = "oneshot";
+	# 		ExecStart = "${pkgs.feh}/bin/feh --no-fehbg --bg-scale --randomize ${wallpaper-folder}";
+	# 	};
+	# };
+
+	programs.fish.enable = true;
+
+	fonts.fontconfig.defaultFonts.emoji = ["Noto Color Emoji" "Noto Emoji" "Twitter Color Emoji"];
+
+	fonts.fonts = with pkgs; [
+	noto-fonts-emoji
+	twemoji-color-font
 	];
 
-	systemd.user.services.randomize-background = let
-		wallpaper-folder = "/home/arnaud/Pictures/Wallpapers";
-	in {
-		description = "Run feh to randomize wallpapers";
-		requires = [ "graphical-session.target" ];
-		serviceConfig = {
-			Type = "oneshot";
-			ExecStart = "${pkgs.feh}/bin/feh --no-fehbg --bg-scale --randomize ${wallpaper-folder}";
-		};
-	};
+	# services.kubernetes = {
+	# 	masterAddress = "master.k8s.kitsu";
+	# 	roles = ["master" "node"];
+	# 	easyCerts = true;
+	# };
 
 	# qt5 = {
 	# 	enable = true;
@@ -143,12 +193,19 @@ in {
 	# 	style = "adwaita";
 	# };
 
+	documentation.dev.enable = true;
+
 	# https://github.com/NixOS/nixpkgs/pull/25311#issuecomment-431107258
-	systemd.services.systemd-udev-settle.serviceConfig.ExecStart = ["" "${pkgs.coreutils}/bin/true"];
+	systemd.services.systemd-udev-settle.serviceConfig.ExecStart =
+	["" "${pkgs.coreutils}/bin/true"];
+
+	services.dbus.packages = [ pkgs.gnome3.dconf ];
+
+	nix.trustedUsers = ["@wheel" "arnaud"];
 
 	# This value determines the NixOS release with which your system is to be
 	# compatible, in order to avoid breaking some software such as database
 	# servers. You should change this only after NixOS release notes say you
 	# should.
-	system.stateVersion = "19.09";
-}
+	system.stateVersion = "20.03";
+	}
