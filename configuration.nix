@@ -86,106 +86,60 @@
 		exportConfiguration = true;
 
 		desktopManager.xterm.enable = true;
+	};
 
-		xrandrHeads = [
-			"HDMI-0"
-			{ output = "eDP-1-1"; primary = true; }
-			];
+	programs.light.enable = true;
 
-		# windowManager.i3 = {
-		# 	enable = true;
-		# 	extraPackages = with pkgs; [
-		# 		feh
-		# 		rofi
-		# 		i3status
-		# 		i3lock
-		# 	];
-		# };
-		};
-
-		programs.light.enable = true;
-
-		hardware.nvidia.optimus_prime = {
+	hardware.nvidia.optimus_prime = {
 		enable = true;
 		nvidiaBusId = "PCI:1:0:0";
 		intelBusId = "PCI:0:2:0";
-		};
+	};
 
-		hardware.nvidia.modesetting.enable = true;
+	hardware.nvidia.modesetting.enable = true;
 
-		hardware.opengl = {
+	hardware.opengl = {
 		enable = true;
 		driSupport32Bit = true;
-		};
+	};
 
-		users.groups."plugdev" = {};
+	users.groups."plugdev" = {};
 
-		users.users.arnaud = {
+	users.users.arnaud = {
 		isNormalUser = true;
 		extraGroups = [ "wheel" "networkmanager" "plugdev" "network" "video" "vboxusers" "docker" "libvirtd" ];
 		shell = pkgs.fish;
 		packages = [ pkgs.qgnomeplatform ];
-		};
+	};
 
-		boot.kernelModules = ["kvm-intel"];
+	boot.kernelModules = ["kvm-intel"];
 
-		virtualisation.docker = {
-		enable = true;
-		enableOnBoot = false;
-		};
+	services.pcscd.enable = true;
 
-		virtualisation.virtualbox.host.enable = true;
+	services.udev.packages = with pkgs; [ yubikey-personalization libu2f-host ];
 
-		services.pcscd.enable = true;
-
-		services.udev.packages = with pkgs; [ yubikey-personalization libu2f-host ];
-
-		programs.gnupg.agent = {
+	programs.gnupg.agent = {
 		enable = true;
 		enableSSHSupport = true;
-		};
+	};
 
-		nixpkgs.config.allowUnfree = true;
+	nixpkgs.config.allowUnfree = true;
 
-		services.redshift.enable = true;
+	services.redshift.enable = true;
 
-		location = {
+	location = {
 		latitude = 48.85341;
 		longitude = 2.3488;
-		};
-
-		hardware.firmware = [
-		(pkgs.callPackage ./firmwares/rtl8125a-3-fw.nix { })
-		];
-
-	# virtualisation.virtualbox.host.enable = true;
-	# users.groups.vboxusers.members = [ "arnaud" ];
-
-	# systemd.user.services.randomize-background = let
-	# 	wallpaper-folder = "/home/arnaud/Pictures/Wallpapers";
-	# in {
-	# 	description = "Run feh to randomize wallpapers";
-	# 	requires = [ "graphical-session.target" ];
-	# 	serviceConfig = {
-	# 		Type = "oneshot";
-	# 		ExecStart = "${pkgs.feh}/bin/feh --no-fehbg --bg-scale --randomize ${wallpaper-folder}";
-	# 	};
-	# };
+	};
 
 	programs.fish.enable = true;
 
 	fonts.fontconfig.defaultFonts.emoji = ["Noto Color Emoji" "Noto Emoji" "Twitter Color Emoji"];
 
 	fonts.fonts = with pkgs; [
-	noto-fonts-emoji
-	twemoji-color-font
+		noto-fonts-emoji
+		twemoji-color-font
 	];
-
-	# services.kubernetes = {
-	# 	masterAddress = "master.k8s.kitsu";
-	# 	roles = ["master" "node"];
-	# 	easyCerts = true;
-	# };
 
 	# qt5 = {
 	# 	enable = true;
@@ -197,15 +151,15 @@
 
 	# https://github.com/NixOS/nixpkgs/pull/25311#issuecomment-431107258
 	systemd.services.systemd-udev-settle.serviceConfig.ExecStart =
-	["" "${pkgs.coreutils}/bin/true"];
+		["" "${pkgs.coreutils}/bin/true"];
 
-	services.dbus.packages = [ pkgs.gnome3.dconf ];
+		services.dbus.packages = [ pkgs.gnome3.dconf ];
 
-	nix.trustedUsers = ["@wheel" "arnaud"];
+		nix.trustedUsers = ["@wheel" "arnaud"];
 
 	# This value determines the NixOS release with which your system is to be
 	# compatible, in order to avoid breaking some software such as database
 	# servers. You should change this only after NixOS release notes say you
 	# should.
 	system.stateVersion = "20.03";
-	}
+}
