@@ -1,0 +1,160 @@
+{
+  "nodes": {
+    "config-nvim": {
+      "inputs": {
+        "nixpkgs": "nixpkgs_2"
+      },
+      "locked": {
+        "lastModified": 1603113097,
+        "narHash": "sha256-Tjr4IvmzwnZJ5No+2Rtf0MzUe0lhrVTwT0idQPJgRHw=",
+        "owner": "lightdiscord",
+        "repo": "config-nvim",
+        "rev": "e094951db572a33ab11a9d455caaf8b15041f4ce",
+        "type": "github"
+      },
+      "original": {
+        "owner": "lightdiscord",
+        "repo": "config-nvim",
+        "type": "github"
+      }
+    },
+    "flat-remix": {
+      "inputs": {
+        "nixpkgs": "nixpkgs"
+      },
+      "locked": {
+        "lastModified": 1603043183,
+        "narHash": "sha256-rW4QOcgbsE9pk7mXxbz/92Xdwd8B0rYgMcv2AD8Wya0=",
+        "owner": "lightdiscord",
+        "repo": "nix-flat-remix",
+        "rev": "fb456b0567c08b60237cfd74daea2556c897ca31",
+        "type": "github"
+      },
+      "original": {
+        "owner": "lightdiscord",
+        "repo": "nix-flat-remix",
+        "type": "github"
+      }
+    },
+    "home-arnaud": {
+      "inputs": {
+        "config-nvim": "config-nvim",
+        "home-manager": "home-manager",
+        "nixpkgs": "nixpkgs_4"
+      },
+      "locked": {
+        "lastModified": 1603124002,
+        "narHash": "sha256-an2eMQ83pijmdb3TrzgLBJKQrvMgmLILT1G6HN7TYUY=",
+        "owner": "lightdiscord",
+        "repo": "home-arnaud",
+        "rev": "d9ebb094bf93038fa56040b0063c758f98f614ab",
+        "type": "github"
+      },
+      "original": {
+        "owner": "lightdiscord",
+        "repo": "home-arnaud",
+        "type": "github"
+      }
+    },
+    "home-manager": {
+      "inputs": {
+        "nixpkgs": "nixpkgs_3"
+      },
+      "locked": {
+        "lastModified": 1602535872,
+        "narHash": "sha256-5dnSqYNzwuL2tiQfSFCbX97Hfl4Lf6q4nghQBwm9pD8=",
+        "owner": "nix-community",
+        "repo": "home-manager",
+        "rev": "e7d5531cfa770afc591f8dc5542eb4fba9962885",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "home-manager",
+        "rev": "e7d5531cfa770afc591f8dc5542eb4fba9962885",
+        "type": "github"
+      }
+    },
+    "nixpkgs": {
+      "locked": {
+        "lastModified": 1603040019,
+        "narHash": "sha256-K+ykdYYh1KGM0+cDRfOLpegVj/dxRelkSjcU3Hb+Mwo=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "8310b5a38817d6f244c88d936776f323b7fd7522",
+        "type": "github"
+      },
+      "original": {
+        "id": "nixpkgs",
+        "type": "indirect"
+      }
+    },
+    "nixpkgs_2": {
+      "locked": {
+        "lastModified": 1603030259,
+        "narHash": "sha256-McbYPtKeuKB9Sr++JIMSpWOQpiaTPnVUit/dLWahUA4=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "07fef1bea1e383bf4d81f08d79fdca8f3bfe344c",
+        "type": "github"
+      },
+      "original": {
+        "id": "nixpkgs",
+        "type": "indirect"
+      }
+    },
+    "nixpkgs_3": {
+      "locked": {
+        "lastModified": 1602964985,
+        "narHash": "sha256-vV70SKPxL+Zn72JFL+aWIhYIZ24sBwi7mkkj46UsbL4=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "4fb4b69d9b1c3e6a70c7083888e546fdc8a42f3e",
+        "type": "github"
+      },
+      "original": {
+        "id": "nixpkgs",
+        "type": "indirect"
+      }
+    },
+    "nixpkgs_4": {
+      "locked": {
+        "lastModified": 1602964985,
+        "narHash": "sha256-vV70SKPxL+Zn72JFL+aWIhYIZ24sBwi7mkkj46UsbL4=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "4fb4b69d9b1c3e6a70c7083888e546fdc8a42f3e",
+        "type": "github"
+      },
+      "original": {
+        "id": "nixpkgs",
+        "type": "indirect"
+      }
+    },
+    "nixpkgs_5": {
+      "locked": {
+        "lastModified": 1602363692,
+        "narHash": "sha256-9V8jl1Lzgw+QMqpEWz4+TjRmXktBWLZjqr3yBWBLL1g=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "51aaa3fa1b69559456f9bd4968bd5b179a784f67",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "nixos-20.09",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "root": {
+      "inputs": {
+        "flat-remix": "flat-remix",
+        "home-arnaud": "home-arnaud",
+        "nixpkgs": "nixpkgs_5"
+      }
+    }
+  },
+  "root": "root",
+  "version": 7
+}
