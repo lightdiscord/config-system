@@ -1,4 +1,4 @@
-# etc-nixos
+# config-system
 
 ## Guides
 
