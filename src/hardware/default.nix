@@ -5,6 +5,8 @@ with lib;
 {
   require = [
     flake-inputs.nixpkgs.nixosModules.notDetected
+    flake-inputs.nixos-hardware.nixosModules.common-cpu-intel
+    flake-inputs.nixos-hardware.nixosModules.common-pc-laptop
   ];
 
   boot.initrd.availableKernelModules = [

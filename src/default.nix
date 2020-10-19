@@ -66,10 +66,7 @@
     enable = true;
     layout = "fr";
     videoDrivers = [ "nvidia" ];
-    libinput = {
-      additionalOptions = ''MatchIsTouchpad "on"'';
-      enable = true;
-    };
+    libinput.additionalOptions = ''MatchIsTouchpad "on"'';
     xkbVariant = "azerty";
     displayManager.gdm.enable = true;
     displayManager.gdm.wayland = false;
