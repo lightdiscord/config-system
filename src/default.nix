@@ -68,8 +68,10 @@
     videoDrivers = [ "nvidia" ];
     libinput.additionalOptions = ''MatchIsTouchpad "on"'';
     xkbVariant = "azerty";
-    displayManager.gdm.enable = true;
-    displayManager.gdm.wayland = false;
+    # Using lightdm because nvidia driver fail when using gdm
+    displayManager.lightdm.enable = true;
+    # displayManager.gdm.enable = true;
+    # displayManager.gdm.wayland = false;
     exportConfiguration = true;
   };
 
@@ -77,16 +79,12 @@
 
   users.groups."plugdev" = {};
 
-  services.xserver.displayManager.sessionCommands = config.services.xserver.displayManager.setupCommands;
-
   users.users.arnaud = {
     isNormalUser = true;
     extraGroups = [ "wheel" "networkmanager" "plugdev" "network" "video" "vboxusers" "docker" "libvirtd" "adbusers" ];
     shell = pkgs.fish;
     packages = [ pkgs.qgnomeplatform ];
   };
-
-  boot.kernelModules = ["kvm-intel"];
 
   services.pcscd.enable = true;
 

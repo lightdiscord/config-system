@@ -7,16 +7,16 @@ with lib;
     flake-inputs.nixpkgs.nixosModules.notDetected
     flake-inputs.nixos-hardware.nixosModules.common-cpu-intel
     flake-inputs.nixos-hardware.nixosModules.common-pc-laptop
+    flake-inputs.nixos-hardware.nixosModules.common-gpu-nvidia
   ];
 
   boot.initrd.availableKernelModules = [
     "xhci_pci" "ahci" "nvme" "usb_storage" "usbhid" "sd_mod" "sr_mod" "rtsx_pci_sdmmc"
   ];
 
-  boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
-  boot.blacklistedKernelModules = [ "dell_smbios" "i2c_nvidia_gpu" ];
+  boot.blacklistedKernelModules = [ "dell_smbios"  "i2c_nvidia_gpu" ];
 
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/8074308b-f567-4a76-ae17-0faee1fbf5b7";
@@ -40,9 +40,9 @@ with lib;
   powerManagement.cpuFreqGovernor = mkDefault "powersave";
 
   hardware.nvidia = {
-    modesetting.enable = true;
+#    modesetting.enable = true;
     prime = {
-      sync.enable = true;
+#      sync.enable = true;
       nvidiaBusId = "PCI:1:0:0";
       intelBusId = "PCI:0:2:0";
     };
