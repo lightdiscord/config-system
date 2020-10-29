@@ -5,9 +5,9 @@ with lib;
 {
   require = [
     flake-inputs.nixpkgs.nixosModules.notDetected
-    flake-inputs.nixos-hardware.nixosModules.common-cpu-intel
+    # flake-inputs.nixos-hardware.nixosModules.common-cpu-intel
     flake-inputs.nixos-hardware.nixosModules.common-pc-laptop
-    flake-inputs.nixos-hardware.nixosModules.common-gpu-nvidia
+    # flake-inputs.nixos-hardware.nixosModules.common-gpu-nvidia
   ];
 
   boot.initrd.availableKernelModules = [
@@ -40,6 +40,15 @@ with lib;
   powerManagement.cpuFreqGovernor = mkDefault "powersave";
 
   hardware.nvidia = {
+    modesetting.enable = true;
+    prime = {
+      sync.enable = true;
+      nvidiaBusId = "PCI:1:0:0";
+      intelBusId = "PCI:0:2:0";
+    };
+  };
+/*
+  hardware.nvidia = {
 #    modesetting.enable = true;
     prime = {
 #      sync.enable = true;
@@ -47,7 +56,7 @@ with lib;
       intelBusId = "PCI:0:2:0";
     };
   };
-
+*/
   hardware.opengl = {
     enable = true;
     driSupport32Bit = true;
