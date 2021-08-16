@@ -5,6 +5,16 @@
     ./hardware
   ];
 
+  hardware.sane.extraBackends = [
+    pkgs.sane-airscan
+    pkgs.hplipWithPlugin
+  ];
+
+  hardware.sane.enable = true;
+  virtualisation.docker.enable = true;
+
+  services.flatpak.enable = true;
+
   nix = {
     package = pkgs.nixUnstable;
     extraOptions = ''
@@ -12,12 +22,21 @@
     '';
   };
 
+  # services.unclutter.enable = true;
+
+  services.gnome3.gnome-keyring.enable = true;
+  networking.networkmanager.enable = true;
+
+  services.udisks2.enable = true;
+
   boot = {
     loader.systemd-boot.enable = true;
     loader.efi.canTouchEfiVariables = true;
     kernelPackages = pkgs.linuxPackages_latest;
     cleanTmpDir = true;
   };
+
+  # hardware.xpadneo.enable = true;
 
   networking = {
     hostName = "ritsu";
@@ -41,17 +60,21 @@
     };
   };
 
-  services.upower.enable = true;
+  # services.picom = {
+  #   enable = true;
+  # };
+  # services.upower.enable = true;
 
-  console.keyMap = "fr";
+  console.keyMap = "us";
   i18n.defaultLocale = "en_US.UTF-8";
 
   time.timeZone = "Europe/Paris";
 
   environment.systemPackages = with pkgs; [
     vim git
-    flake-inputs.flat-remix.packages.x86_64-linux.icon-theme
-    flake-inputs.flat-remix.packages.x86_64-linux.gtk-theme
+    slock
+#    flake-inputs.flat-remix.packages.x86_64-linux.icon-theme
+#    flake-inputs.flat-remix.packages.x86_64-linux.gtk-theme
   ];
 
   sound.enable = true;
@@ -64,14 +87,22 @@
 
   services.xserver = {
     enable = true;
-    layout = "fr";
+    layout = "us";
     videoDrivers = [ "nvidia" ];
+    # videoDrivers = [ "intel" ];
     libinput.additionalOptions = ''MatchIsTouchpad "on"'';
-    xkbVariant = "azerty";
+    # displayManager.startx.enable = true;
     # Using lightdm because nvidia driver fail when using gdm
-    displayManager.lightdm.enable = true;
+    # displayManager.lightdm.enable = true;
+    displayManager.sddm.enable = true;
+    # displayManager.sessionCommands = config.services.xserver.displayManager.setupCommands;
     # displayManager.gdm.enable = true;
     # displayManager.gdm.wayland = false;
+    desktopManager.plasma5.enable = true;
+    # desktopManager.gnome3.enable = true;
+
+    #displayManager.gdm.wayland = false;
+    #windowManager.i3.enable = true;
     exportConfiguration = true;
   };
 
@@ -81,7 +112,7 @@
 
   users.users.arnaud = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "networkmanager" "plugdev" "network" "video" "vboxusers" "docker" "libvirtd" "adbusers" ];
+    extraGroups = [ "wheel" "networkmanager" "plugdev" "network" "video" "vboxusers" "docker" "libvirtd" "adbusers" "audio" "scanner" "lp" ];
     shell = pkgs.fish;
     packages = [ pkgs.qgnomeplatform ];
   };
@@ -108,17 +139,28 @@
 
   programs.fish.enable = true;
 
-  hardware.openrazer.enable = true;
+  #hardware.openrazer.enable = true;
 
-  fonts.fontconfig.enable = true;
+  fonts = {
+    fonts = [
+      pkgs.ubuntu_font_family
+      pkgs.hack-font
+      pkgs.noto-fonts-emoji
+      pkgs.twemoji-color-font
+      pkgs.cantarell-fonts
+	  pkgs.jetbrains-mono
+    ];
+
+    fontconfig = {
+      enable = true;
+      defaultFonts = {
+        serif = ["Ubuntu"];
+        sansSerif = ["Ubuntu"];
+        monospace = ["Ubuntu"];
+      };
+    };
+  };
   # fonts.fontconfig.defaultFonts.emoji = ["Noto Color Emoji" "Noto Emoji" "Twitter Color Emoji"];
-
-  fonts.fonts = with pkgs; [
-    hack-font
-    noto-fonts-emoji
-    twemoji-color-font
-    cantarell-fonts
-  ];
 
   # qt5 = {
   # 	enable = true;
@@ -128,12 +170,9 @@
 
   documentation.dev.enable = true;
 
-  services.xserver.desktopManager.gnome3.enable = true;
-  # https://github.com/NixOS/nixpkgs/pull/25311#issuecomment-431107258
-  systemd.services.systemd-udev-settle.serviceConfig.ExecStart = ["" "${pkgs.coreutils}/bin/true"];
+  # services.xserver.desktopManager.gnome3.enable = true;
   systemd.services.systemd-networkd-wait-online.serviceConfig.ExecStart = ["" "${pkgs.coreutils}/bin/true"];
 
-  services.gnome3.gnome-keyring.enable = lib.mkForce false;
   services.dbus.packages = [ pkgs.gnome3.dconf ];
 
   nix.trustedUsers = ["@wheel" "arnaud"];
@@ -143,8 +182,10 @@
   # compatible, in order to avoid breaking some software such as database
   # servers. You should change this only after NixOS release notes say you
   # should.
-  system.stateVersion = "20.03";
+  system.stateVersion = "20.09";
 
+  networking.firewall.allowedTCPPorts = [8000];
+  networking.firewall.allowedUDPPorts = [8000];
   networking.firewall.logRefusedConnections = true;
   networking.firewall.logRefusedPackets = true;
   services.avahi.enable = true;

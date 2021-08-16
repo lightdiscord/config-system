@@ -1,11 +1,11 @@
-{ flake-inputs, lib, ... }:
+{ flake-inputs, lib, pkgs, ... }:
 
 with lib;
 
 {
   require = [
     flake-inputs.nixpkgs.nixosModules.notDetected
-    # flake-inputs.nixos-hardware.nixosModules.common-cpu-intel
+    flake-inputs.nixos-hardware.nixosModules.common-cpu-intel
     flake-inputs.nixos-hardware.nixosModules.common-pc-laptop
     # flake-inputs.nixos-hardware.nixosModules.common-gpu-nvidia
   ];
@@ -14,7 +14,7 @@ with lib;
     "xhci_pci" "ahci" "nvme" "usb_storage" "usbhid" "sd_mod" "sr_mod" "rtsx_pci_sdmmc"
   ];
 
-  boot.kernelModules = [ "kvm-intel" ];
+  boot.kernelModules = [ "kvm-intel" "coretemp" ];
   boot.extraModulePackages = [ ];
   boot.blacklistedKernelModules = [ "dell_smbios"  "i2c_nvidia_gpu" ];
 
@@ -28,11 +28,11 @@ with lib;
     fsType = "vfat";
   };
 
-  fileSystems."/mnt/datas" = {
-    device = "/dev/disk/by-uuid/db471248-79bc-4b8b-bc1a-77adbe79cb68";
-    fsType = "ext4";
-    options = [ "nofail" ];
-  };
+  #fileSystems."/mnt/datas" = {
+  #  device = "/dev/disk/by-uuid/db471248-79bc-4b8b-bc1a-77adbe79cb68";
+  #  fsType = "ext4";
+  #  options = [ "nofail" ];
+  #};
 
   swapDevices = [ ];
 
@@ -47,18 +47,20 @@ with lib;
       intelBusId = "PCI:0:2:0";
     };
   };
-/*
-  hardware.nvidia = {
-#    modesetting.enable = true;
-    prime = {
-#      sync.enable = true;
-      nvidiaBusId = "PCI:1:0:0";
-      intelBusId = "PCI:0:2:0";
-    };
-  };
-*/
+
+#  hardware.nvidia = {
+##    modesetting.enable = true;
+#    prime = {
+##      sync.enable = true;
+#      nvidiaBusId = "PCI:1:0:0";
+#      intelBusId = "PCI:0:2:0";
+#    };
+#  };
+
   hardware.opengl = {
     enable = true;
+    driSupport = true;
     driSupport32Bit = true;
+    extraPackages = with pkgs; [ vaapiIntel vaapiVdpau libvdpau-va-gl intel-media-driver ];
   };
 }
