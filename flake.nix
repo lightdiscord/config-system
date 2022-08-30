@@ -17,8 +17,7 @@
       ];
     };
 
-    # This way I keep steam out of my system configuration and I can update it through my profile.
-    # But I extend it with the required libraries to run some games.
+    # Keeping steam out of the system configuration while adding the needed extra packages to it.
     packages.x86_64-linux.steam = nixpkgs.legacyPackages.x86_64-linux.steam.override {
       # This is what the base steam module on nixpkgs does.
       # Reference: https://github.com/NixOS/nixpkgs/blob/6e01aa7ca639260aa4c8e652656f132fd5bfeb19/nixos/modules/programs/steam.nix#L8-L13
