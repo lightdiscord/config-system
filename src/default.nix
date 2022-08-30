@@ -3,6 +3,7 @@
 {
   require = [
     ./hardware.nix
+    ./docker.nix
   ];
 
   nix.extraOptions = ''
